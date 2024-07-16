@@ -1,0 +1,25 @@
+name: DaCapo CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: liufengyun/dacapo-docker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'      # See 'Options' section below for all supported versions
+          distribution: 'graalvm' # See 'Options' section below for all available distributions
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Version
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          native-image --version
+
+      - name: Copy Setting
+        run: cp /home/local.properties benchmarks
+
+      - name: Create Distribution
+        run: cd benchmarks && ant sunflow
