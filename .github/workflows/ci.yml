@@ -31,7 +31,7 @@ jobs:
         run: cd benchmarks && ant sunflow
 
       - name: Run Launcher with Java
-        run: /usr/lib/jvm/java-21-openjdk-amd64/bin/java -jar dacapo-evaluation-git-/launchers/sunflow.jar sunflow
+        run: cd benchmarks && /usr/lib/jvm/java-21-openjdk-amd64/bin/java -jar dacapo-evaluation-git-/launchers/sunflow.jar sunflow
 
       - name: Run Launcher with Native Image
-        run: bash native-image-run dacapo-evaluation-git-/launchers sunflow
+        run: cd benchmarks && bash native-image-run dacapo-evaluation-git-/launchers sunflow
