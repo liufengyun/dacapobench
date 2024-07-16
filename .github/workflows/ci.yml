@@ -1,8 +1,10 @@
 name: DaCapo CI
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   build:
-    runs-on: liufengyun/dacapo-docker
+    runs-on: ubuntu-latest
+    container:
+      image: liufengyun/dacapo-docker:latest
     steps:
       - uses: actions/checkout@v4
       - uses: graalvm/setup-graalvm@v1
