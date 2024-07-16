@@ -11,6 +11,7 @@ jobs:
         with:
           java-version: '21'      # See 'Options' section below for all supported versions
           distribution: 'graalvm' # See 'Options' section below for all available distributions
+          set-java-home: 'false'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print Version
