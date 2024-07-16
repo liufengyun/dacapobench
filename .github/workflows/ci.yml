@@ -14,6 +14,9 @@ jobs:
           set-java-home: 'false'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Make Java 8 as Default
+        run: echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+
       - name: Print Version
         run: |
           echo "GRAALVM_HOME: $GRAALVM_HOME"
