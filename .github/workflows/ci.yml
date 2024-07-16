@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "GRAALVM_HOME: $GRAALVM_HOME"
           echo "JAVA_HOME: $JAVA_HOME"
-          java --version
+          java -version
           native-image --version
 
       - name: Copy Setting
