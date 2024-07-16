@@ -1,0 +1,37 @@
+name: DaCapo CI
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: liufengyun/dacapo-docker:latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'      # See 'Options' section below for all supported versions
+          distribution: 'graalvm' # See 'Options' section below for all available distributions
+          set-java-home: 'false'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Make Java 8 as Default
+        run: echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+
+      - name: Print Version
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java -version
+          native-image --version
+
+      - name: Copy Setting
+        run: cp /home/local.properties benchmarks
+
+      - name: Create Distribution
+        run: cd benchmarks && ant sunflow
+
+      - name: Run Launcher with Java
+        run: cd benchmarks && /usr/lib/jvm/java-21-openjdk-amd64/bin/java -jar dacapo-evaluation-git-/launchers/sunflow.jar sunflow
+
+      - name: Run Launcher with Native Image
+        run: cd benchmarks && bash native-image-run dacapo-evaluation-git-/launchers sunflow
